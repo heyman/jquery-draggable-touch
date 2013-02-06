@@ -16,6 +16,14 @@ I decided it was simpler to just write a draggable plugin whose main target
 was touch devices, and that uses touch events (even though it still has a 
 fallback on mouseevents when the browser/device doesn't support touch events).
 
+Features
+--------
+
+* Main target is touch devices
+* Small and simple
+* Supports dragging multiple elements at the same time
+
+
 Usage example
 -------------
 
