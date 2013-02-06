@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery Draggable Touch Example</title>
+    </head>
+    <body>
+        <div class="draggable" style="position:absolute; top:0; left:0; width:200px; height:200px; background:#f00;"></div>
+        <div class="draggable" style="position:absolute; top:0; left:0; width:50px; height:50px; background:#f00;"></div>
+        
+        <div id="console"></div>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script src="jquery.draggableTouch.js"></script>
+        <script>
+            $(document).ready(function() {
+                $(".draggable").draggableTouch();
+                
+                $(".draggable").bind("dragstart", function(e, pos) {
+                    console.log("dragstart:", this, pos.left + "," + pos.top);
+                }).bind("dragend", function(e, pos) {
+                    console.log("dragend:", this, pos.left + "," + pos.top);
+                });
+            });
+            
+            // if this is a touch device, we assume we don't have a visible console and use
+            // a crappy homemade one :)
+            if ("ontouchstart" in document.documentElement) {
+                window.console = {
+                    log: function(a, b, c) {
+                        if (a && b && c)
+                            $("<div>" + a + " " + b + " " + c + "</div>").appendTo($("#console"));
+                        else if (a && b)
+                            $("<div>" + a + " " + b + "</div>").appendTo($("#console"));
+                        else if (a)
+                            $("<div>" + a + "</div>").appendTo($("#console"));
+                    }
+                };
+            }
+        </script>
+    </body>
+</html>
