@@ -30,6 +30,13 @@ Usage example
             console.log("drag ended on:", this, "at position:", post);
         });
 
+
+See example
+-----------
+`Here <http://heyman.github.com/jquery-draggable-touch/example.html>` is a super simple -
+ and frankly quite ugly - example page.
+
+
 Copyright & License
 -------------------
 
