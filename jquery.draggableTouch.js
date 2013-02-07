@@ -16,8 +16,7 @@
         // check if the device has touch support, and if not, fallback to use mouse
         // draggableMouse which uses mouse events
         if (!("ontouchstart" in document.documentElement)) {
-            this.draggableMouse();
-            return;
+            return this.draggableMouse(action);
         }
         this.each(function() {
             var element = $(this);
@@ -58,6 +57,7 @@
             element.bind("touchend", end);
             element.bind("touchcancel", end);
         });
+        return this;
     };
     
     /**
@@ -91,5 +91,6 @@
                 });
             });
         });
+        return this;
     };
 })(jQuery);
