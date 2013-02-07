@@ -6,8 +6,8 @@ but the plugin also has a fallback that uses mouse events.
 
 The main reason that this plugin exist is that there are currently no 
 good jQuery plugin for making elements draggable, that has touch devices 
-as it's main target (at least that I know of. jQuery UI (http://jqueryui.com/draggable/) 
-has a draggable plugin which, together with jQuery UI Touch Punch (http://touchpunch.furf.com/), 
+as it's main target (at least that I know of). `jQuery UI <http://jqueryui.com/draggable/>`_ 
+has a draggable plugin which, together with `jQuery UI Touch Punch <http://touchpunch.furf.com/>`_, 
 can be used to make elements draggable on touch devices. However, due to 
 Touch Punch generating fake mouse events, and jQuery UI's draggable plugin, using these fake 
 mouse events when dragging elements, it's error prone and contains weird bugs.
