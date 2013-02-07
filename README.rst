@@ -37,6 +37,11 @@ Usage example
         .bind("dragend", function(event, pos) {
             console.log("drag ended on:", this, "at position:", post);
         });
+    
+::
+
+    // to disable draggability
+    $(".my-draggables").draggableTouch("disable");
 
 
 See example

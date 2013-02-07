@@ -12,12 +12,22 @@
  * you think this stuff is worth it, you can buy me a beer in return.
  */
 ;(function($){
-    $.fn.draggableTouch = function() {
+    $.fn.draggableTouch = function(action) {
         // check if the device has touch support, and if not, fallback to use mouse
         // draggableMouse which uses mouse events
         if (!("ontouchstart" in document.documentElement)) {
             return this.draggableMouse(action);
         }
+        
+        // check if we shall make it not draggable
+        if (action == "disable") {
+            this.unbind("touchstart");
+            this.unbind("touchmove");
+            this.unbind("touchend");
+            this.unbind("touchcancel");
+            return this;
+        }
+        
         this.each(function() {
             var element = $(this);
             var offset = null;
@@ -63,7 +73,14 @@
     /**
      * Draggable fallback for when touch is not available
      */
-    $.fn.draggableMouse = function () {
+    $.fn.draggableMouse = function (action) {
+        // check if we shall make it not draggable
+        if (action == "disable") {
+            this.unbind("mousedown");
+            this.unbind("mouseup");
+            return this;
+        }
+        
         this.each(function() {
             var element = $(this);
             var offset = null;
