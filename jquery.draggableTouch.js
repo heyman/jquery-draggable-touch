@@ -91,6 +91,14 @@
                     left: e.pageX - offset.x,
                 });
             };
+            var up = function(e) {
+                element.unbind("mouseup", up);
+                $(document).unbind("mousemove", move);
+                element.trigger("dragend", {
+                    top: e.pageY - offset.y,
+                    left: e.pageX - offset.x
+                });
+            };
             element.bind("mousedown", function(e) {
                 var pos = element.position();
                 offset = {
@@ -98,14 +106,8 @@
                     y: e.pageY - pos.top
                 };
                 $(document).bind("mousemove", move);
+                element.bind("mouseup", up);
                 element.trigger("dragstart", pos);
-            });
-            element.bind("mouseup", function(e) {
-                $(document).unbind("mousemove", move);
-                element.trigger("dragend", {
-                    top: e.pageY - offset.y,
-                    left: e.pageX - offset.x
-                });
             });
         });
         return this;
