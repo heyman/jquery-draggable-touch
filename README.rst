@@ -35,7 +35,7 @@ Usage example
             console.log("drag started on:", this, "at position:", pos);
         })
         .bind("dragend", function(event, pos) {
-            console.log("drag ended on:", this, "at position:", post);
+            console.log("drag ended on:", this, "at position:", pos);
         });
     
 ::
