@@ -108,6 +108,7 @@
                 $(document).bind("mousemove", move);
                 element.bind("mouseup", up);
                 element.trigger("dragstart", pos);
+                e.preventDefault();
             });
         });
         return this;
