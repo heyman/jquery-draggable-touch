@@ -1,5 +1,5 @@
 /**
- * jQuery Draggable Touch v0.5
+ * jQuery Draggable Touch v0.6
  * Jonatan Heyman | http://heyman.info 
  *
  * Make HTML elements draggable by using uses touch events.
