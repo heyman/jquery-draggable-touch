@@ -34,19 +34,35 @@
         this.each(function() {
             var element = $(this);
             var offset = null;
+            var draggingTouchId = null;
             
             var end = function(e) {
                 e.preventDefault();
                 var orig = e.originalEvent;
-                
-                element.trigger("dragend", {
-                    top: orig.changedTouches[0].pageY - offset.y,
-                    left: orig.changedTouches[0].pageX - offset.x
-                });
+                for (var i=0; i<orig.changedTouches.length; i++) {
+                    var touch = orig.changedTouches[i];
+                    // the only touchend/touchcancel event we care about is the touch
+                    // that started the dragging
+                    if (touch.identifier != draggingTouchId) {
+                        continue;
+                    }
+                    element.trigger("dragend", {
+                        top: orig.changedTouches[0].pageY - offset.y,
+                        left: orig.changedTouches[0].pageX - offset.x
+                    });
+                    draggingTouchId = null;
+                }
             };
             
             element.bind("touchstart.draggableTouch", function(e) {
                 var orig = e.originalEvent;
+                // if this element is already being dragged, we can early exit, otherwise
+                // we need to store which touch started dragging the element
+                if (draggingTouchId) {
+                    return;
+                } else {
+                    draggingTouchId = orig.changedTouches[0].identifier;
+                }
                 var pos = $(this).position();
                 offset = {
                     x: orig.changedTouches[0].pageX - pos.left,
@@ -58,14 +74,18 @@
                 e.preventDefault();
                 var orig = e.originalEvent;
                 
-                // do now allow two touch points to drag the same element
-                if (orig.targetTouches.length > 1)
-                    return;
-                
-                $(this).css({
-                    top: orig.changedTouches[0].pageY - offset.y,
-                    left: orig.changedTouches[0].pageX - offset.x
-                });
+                for (var i=0; i<orig.changedTouches.length; i++) {
+                    var touch = orig.changedTouches[i];
+                    // the only touchend/touchcancel event we care about is the touch
+                    // that started the dragging
+                    if (touch.identifier != draggingTouchId) {
+                        continue;
+                    }
+                    $(this).css({
+                        top: touch.pageY - offset.y,
+                        left: touch.pageX - offset.x
+                    });
+                }
             });
             element.bind("touchend.draggableTouch touchcancel.draggableTouch", end);
         });
