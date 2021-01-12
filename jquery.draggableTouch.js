@@ -21,10 +21,13 @@
         
         // check if we shall make it not draggable
         if (action == "disable") {
-            this.unbind("touchstart");
-            this.unbind("touchmove");
-            this.unbind("touchend");
-            this.unbind("touchcancel");
+            this.unbind("touchstart.draggableTouch");
+            this.unbind("touchmove.draggableTouch");
+            this.unbind("touchend.draggableTouch");
+            this.unbind("touchcancel.draggableTouch");
+            
+            this.trigger("dragdisabled");
+
             return this;
         }
         
@@ -42,7 +45,7 @@
                 });
             };
             
-            element.bind("touchstart", function(e) {
+            element.bind("touchstart.draggableTouch", function(e) {
                 var orig = e.originalEvent;
                 var pos = $(this).position();
                 offset = {
@@ -51,7 +54,7 @@
                 };
                 element.trigger("dragstart", pos);
             });
-            element.bind("touchmove", function(e) {
+            element.bind("touchmove.draggableTouch", function(e) {
                 e.preventDefault();
                 var orig = e.originalEvent;
                 
@@ -64,8 +67,7 @@
                     left: orig.changedTouches[0].pageX - offset.x
                 });
             });
-            element.bind("touchend", end);
-            element.bind("touchcancel", end);
+            element.bind("touchend.draggableTouch touchcancel.draggableTouch", end);
         });
         return this;
     };
@@ -76,8 +78,12 @@
     $.fn.draggableMouse = function (action) {
         // check if we shall make it not draggable
         if (action == "disable") {
-            this.unbind("mousedown");
-            this.unbind("mouseup");
+            this.unbind("mousedown.draggableTouch");
+            this.unbind("mouseup.draggableTouch");
+            $(document).unbind("mousemove.draggableTouch");
+
+            this.trigger("dragdisabled");
+
             return this;
         }
         
@@ -92,21 +98,21 @@
                 });
             };
             var up = function(e) {
-                element.unbind("mouseup", up);
-                $(document).unbind("mousemove", move);
+                element.unbind("mouseup.draggableTouch", up);
+                $(document).unbind("mousemove.draggableTouch", move);
                 element.trigger("dragend", {
                     top: e.pageY - offset.y,
                     left: e.pageX - offset.x
                 });
             };
-            element.bind("mousedown", function(e) {
+            element.bind("mousedown.draggableTouch", function(e) {
                 var pos = element.position();
                 offset = {
                     x: e.pageX - pos.left,
                     y: e.pageY - pos.top
                 };
-                $(document).bind("mousemove", move);
-                element.bind("mouseup", up);
+                $(document).bind("mousemove.draggableTouch", move);
+                element.bind("mouseup.draggableTouch", up);
                 element.trigger("dragstart", pos);
                 e.preventDefault();
             });
