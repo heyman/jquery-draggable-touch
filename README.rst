@@ -42,9 +42,8 @@ Set the position using :code:`transform` CSS property instead of :code:`left` an
 
     $(".my-draggables").draggableTouch({useTransform:true});
 
-::
+To disable dragability::
 
-    // to disable draggability
     $(".my-draggables").draggableTouch("disable");
 
 
