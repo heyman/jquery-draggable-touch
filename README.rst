@@ -50,7 +50,7 @@ To disable dragability::
 See example
 -----------
 
-`Here <http://heyman.github.com/jquery-draggable-touch/example.html>`_ is a super simple
+`Here <https://heyman.github.io/jquery-draggable-touch/example.html>`_ is a super simple
 - and frankly quite ugly - example page.
 
 
