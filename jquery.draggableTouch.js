@@ -12,30 +12,34 @@
  * you think this stuff is worth it, you can buy me a beer in return.
  */
 ;(function($){
-    $.fn.draggableTouch = function(action) {
+    $.fn.draggableTouch = function(actionOrSettings) {
         // check if the device has touch support, and if not, fallback to use mouse
         // draggableMouse which uses mouse events
         if (!("ontouchstart" in document.documentElement)) {
-            return this.draggableMouse(action);
+            return this.draggableMouse(actionOrSettings);
         }
-        
-        // check if we shall make it not draggable
-        if (action == "disable") {
-            this.unbind("touchstart.draggableTouch");
-            this.unbind("touchmove.draggableTouch");
-            this.unbind("touchend.draggableTouch");
-            this.unbind("touchcancel.draggableTouch");
-            
-            this.trigger("dragdisabled");
 
-            return this;
+        if (typeof(actionOrSettings) == "string") {
+            // check if we shall make it not draggable
+            if (actionOrSettings == "disable") {
+                this.unbind("touchstart.draggableTouch");
+                this.unbind("touchmove.draggableTouch");
+                this.unbind("touchend.draggableTouch");
+                this.unbind("touchcancel.draggableTouch");
+                
+                this.trigger("dragdisabled");
+
+                return this;
+            }
+        } else {
+            var useTransform = actionOrSettings && actionOrSettings.useTransform;
+            console.log("useTransform:", useTransform);
         }
         
         this.each(function() {
             var element = $(this);
             var offset = null;
             var draggingTouchId = null;
-            
             var end = function(e) {
                 e.preventDefault();
                 var orig = e.originalEvent;
@@ -81,10 +85,16 @@
                     if (touch.identifier != draggingTouchId) {
                         continue;
                     }
-                    $(this).css({
-                        top: touch.pageY - offset.y,
-                        left: touch.pageX - offset.x
-                    });
+                    if (useTransform) {
+                        $(this).css({
+                            "transform": "translate3d(" + (touch.pageX - offset.x) + "px, " + (touch.pageY - offset.y) + "px, 0px)",
+                        });
+                    } else {
+                        $(this).css({
+                            top: touch.pageY - offset.y,
+                            left: touch.pageX - offset.x
+                        });
+                    }
                 }
             });
             element.bind("touchend.draggableTouch touchcancel.draggableTouch", end);
@@ -95,16 +105,20 @@
     /**
      * Draggable fallback for when touch is not available
      */
-    $.fn.draggableMouse = function (action) {
-        // check if we shall make it not draggable
-        if (action == "disable") {
-            this.unbind("mousedown.draggableTouch");
-            this.unbind("mouseup.draggableTouch");
-            $(document).unbind("mousemove.draggableTouch");
+    $.fn.draggableMouse = function (actionOrSettings) {
+        if (typeof(actionOrSettings) == "string") {
+            // check if we shall make it not draggable
+            if (actionOrSettings == "disable") {
+                this.unbind("mousedown.draggableTouch");
+                this.unbind("mouseup.draggableTouch");
+                $(document).unbind("mousemove.draggableTouch");
 
-            this.trigger("dragdisabled");
+                this.trigger("dragdisabled");
 
-            return this;
+                return this;
+            }
+        } else {
+            var useTransform = actionOrSettings && actionOrSettings.useTransform;
         }
         
         this.each(function() {
@@ -112,10 +126,16 @@
             var offset = null;
             
             var move = function(e) {
-                element.css({
-                    top: e.pageY - offset.y,
-                    left: e.pageX - offset.x,
-                });
+                if (useTransform) {
+                    element.css({
+                        "transform": "translate3d(" + (e.pageX - offset.x) + "px, " + (e.pageY - offset.y) + "px, 0px)",
+                    });
+                } else {
+                    element.css({
+                        top: e.pageY - offset.y,
+                        left: e.pageX - offset.x,
+                    });
+                }
             };
             var up = function(e) {
                 element.unbind("mouseup.draggableTouch", up);

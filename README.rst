@@ -1,8 +1,8 @@
 jQuery Draggable Touch
 ======================
 
-Make HTML elements draggable. Main implementation uses touch events, 
-but the plugin also has a fallback that uses mouse events.
+Make HTML elements draggable, and supports multi touch. Main implementation uses 
+touch events, but the plugin also has a fallback that uses mouse events.
 
 The main reason that this plugin exist is that there are currently no 
 good jQuery plugin for making elements draggable, that has touch devices 
@@ -37,7 +37,11 @@ Usage example
         .bind("dragend", function(event, pos) {
             console.log("drag ended on:", this, "at position:", pos);
         });
-    
+
+Set the position using :code:`transform` CSS property instead of :code:`left` and :code:`top`::
+
+    $(".my-draggables").draggableTouch({useTransform:true});
+
 ::
 
     // to disable draggability
