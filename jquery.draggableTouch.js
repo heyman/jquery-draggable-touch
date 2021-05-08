@@ -33,7 +33,6 @@
             }
         } else {
             var useTransform = actionOrSettings && actionOrSettings.useTransform;
-            console.log("useTransform:", useTransform);
         }
         
         this.each(function() {
