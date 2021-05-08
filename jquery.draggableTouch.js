@@ -15,7 +15,7 @@
     $.fn.draggableTouch = function(actionOrSettings) {
         // check if the device has touch support, and if not, fallback to use mouse
         // draggableMouse which uses mouse events
-        if (!("ontouchstart" in document.documentElement)) {
+        if (window.ontouchstart === undefined) {
             return this.draggableMouse(actionOrSettings);
         }
 
