@@ -58,6 +58,7 @@
             };
             
             element.bind("touchstart.draggableTouch", function(e) {
+                e.preventDefault();
                 var orig = e.originalEvent;
                 // if this element is already being dragged, we can early exit, otherwise
                 // we need to store which touch started dragging the element
